@@ -1,0 +1,45 @@
+Objetivo
+- Analiza el log del pipeline fallido y los archivos de test adjuntos.
+- Genera una corrección mínima y segura que haga pasar las pruebas fallidas.
+- Devuelve un patch en formato "unified diff" que pueda aplicarse con `git apply`.
+
+Contexto adjunto (se entregarán como archivos)
+- pipeline-failure.log
+- tests/api-orders.spec.ts
+- cualquier otro archivo relevante en workspace/
+
+Restricciones y reglas
+1. Cambios mínimos: modifica solo los archivos estrictamente necesarios.
+2. No introducir secretos ni credenciales en el código.
+3. Comentarios cortos en el código (1 línea).
+4. Mantener la lógica de tests que ya pasaban.
+5. Usar rama nueva sugerida: fix/auto/claude-fix
+
+Tareas a ejecutar
+1. Examina pipeline-failure.log y señala la línea exacta que indica la causa raíz (1 frase).
+2. Localiza en los archivos adjuntos la(s) línea(s) problemáticas y explica en 1 línea por archivo qué cambiarás.
+3. Genera un patch en formato unified diff que corrija el problema. El patch debe:
+   - aplicar con `git apply patch.diff`
+   - incluir comentarios cortos donde agregues o cambies código
+   - no borrar tests
+4. Devuelve, en bloque final, los comandos exactos para aplicar el patch y verificar:
+   - crear rama, aplicar patch, revisar cambios, ejecutar tests relevantes.
+
+Formato de salida requerido (solo esta estructura)
+- CAUSA_RAIZ: (una línea)
+- PATCH:
+  <unified diff completo>
+- CAMBIOS: (lista corta: archivo - 1 línea resumen)
+- INSTRUCCIONES:
+  git checkout -b fix/auto/claude-fix
+  git apply patch.diff
+  git add -A && git commit -m "fix(tests): ..."
+  npx playwright test tests/api-orders.spec.ts
+
+Puntos de verificación
+- Tras aplicar el patch, las pruebas indicadas deben pasar (HTTP 201 + validación de esquema).
+- Si el fix requiere token, el código debe leerlo desde variable de entorno y documentar cómo pasar el token para CI.
+- Si hay cambios en la capa de BD, solo redactar la consulta nativa como comentario.
+
+Nota final
+- Responde estrictamente en el formato solicitado o indica qué información falta.
