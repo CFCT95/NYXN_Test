@@ -1,0 +1,26 @@
+Define qué requerirías en el Definition of Ready (DoR) para aceptar la HU y qué automatizaciones
+mínimas exigirías en el Definition of Done (DoD).
+
+Respuesta:
+
+Para complementar el flujo del Sprint usando Playwright, estas serían las exigencias técnicas que pondría sobre la mesa para el DoR (poder empezar a automatizar) y el DoD (dar la tarea por terminada):
+
+1. Lo que exigiría en el Definition of Ready (DoR)
+La Historia de Usuario debe cumplir con esto:
+
+Contrato de API formalizado y firmado: La especificación técnica completa (OpenAPI/Swagger) consensuada entre desarrollo y QA. Debe incluir URLs, métodos, payloads exactos y estructuras de respuesta exitosas y de error (400, 401, 500).
+
+Criterios de Aceptación claros: Escenarios de negocio bien definidos (por ejemplo, en formato Gherkin/Given-When-Then) para saber exactamente qué Edge Cases se deben probar, más allá del happy path.
+
+Datos de prueba definidos: Saber qué tipos de clientes o SKU corporativos se necesitan para transaccionar y si requerimos configurar estados previos en la base de datos para simular el escenario.
+
+2. Las automatizaciones mínimas en el Definition of Done (DoD)
+Para que la HU se considere terminada y con calidad Senior, el entregable de automatización debe cumplir con estos mínimos:
+
+Validación de esquema estricta (Contract Tests): El test en Playwright debe validar la estructura del JSON al 100% usando un compilador de esquemas (como AJV). Ningún campo obligatorio (required) o tipo de dato puede variar.
+
+Pruebas funcionales de los flujos core: Al menos un test funcional para el camino feliz (201 Created) y dos para caminos alternos/errores típicos (400 Bad Request por campos inválidos o 401 por token expirado).
+
+Validación de Persistencia (E2E API): El script no puede quedarse solo en la respuesta HTTP. Debe incluir la verificación en la base de datos (por ejemplo, la consulta nativa a MongoDB que estructuramos antes) para asegurar que el registro realmente se guardó con el estado correcto.
+
+Ejecución limpia y desacoplada: El test debe pasar en verde de forma local usando variables de entorno para las URLs y secretos, quedando listo para integrarse al pipeline de CI/CD sin configuraciones cableadas (hardcoded).

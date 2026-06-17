@@ -1,0 +1,19 @@
+Análisis de Carga (JMeter)
+Un microservicio crítico de NYXN debe responder bajo un SLA estricto: Soportar 500 usuarios
+concurrentes con una rampa de 2 minutos. ¿Cuáles son las dos métricas fundamentales que
+configurarías en tu reporte para asegurar un percentil 95 menor a 400ms y un 0.0% de tasa de
+error?
+
+Respuesta:
+
+Las dos métricas fundamentales que configuraría en mi reporte para asegurar un percentil 95 menor a 400ms y un 0.0% de tasa de error son el 95th Percentile (Percentil 95) y el Error % (Tasa de error).
+
+1. Percentil 95 (95th Percentile)
+El promedio no sirve para medir SLAs. Si 95 usuarios sufren una lentitud terrible de 1,000ms y solo 5 tienen una respuesta de 5ms, el promedio general va a camuflar el problema dando un número "aceptable".
+
+El Percentil 95 ordena todas las respuestas de menor a mayor y te muestra el límite real del 95% de tus usuarios. Si ese número da menos de 400ms, tienes la certeza matemática de que la gran mayoría navegó rápido, aislando los picos atípicos.
+
+2. Tasa de Error (Error %)
+La velocidad no importa si el sistema está roto. Cuando un microservicio colapsa por exceso de carga, suele responder de inmediato con errores 500 o rechazos de conexión. Como el servidor no procesa lógica ni consulta bases de datos, esos errores tardan milisegundos en responder.
+
+Si solo miranos los tiempos de respuesta, pensamos que el sistema vuela, cuando en realidad se cayó. Monitorear que la tasa de error esté estrictamente en 0.0% asegura que los tiempos medidos corresponden a transacciones exitosas (200 OK o 201 Created).
