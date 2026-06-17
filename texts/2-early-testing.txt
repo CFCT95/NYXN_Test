@@ -1,0 +1,19 @@
+¿Cómo aplicarías el concepto de Pruebas Tempranas (Early Testing) para automatizar sin
+depender del despliegue del backend?
+
+Respuesta:
+
+Para aplicar Early Testing sin depender del despliegue del backend, y usando específicamente Playwright, la estrategia se centra en diseñar las pruebas basándonos en el contrato y mockear la red nativamente.
+
+Así es como resolvería este bloqueo dentro del Sprint:
+
+1. Acuerdo del Contrato (OpenAPI / Swagger)
+Antes de tirar código, QA y Desarrollo acordamos y firmamos el contrato de la API. Definimos el endpoint exacto (POST /api/v1/orders), los headers, el payload requerido y la estructura exacta del JSON de respuesta.
+
+2. Mockeo Nativo con Playwright (mockServer)
+Como Playwright incluye herramientas excelentes para Backend-only testing sin necesidad de levantar herramientas externas (como WireMock), utilizo su servidor de mocks nativo (playwright.request.newMockServer()).
+
+Configuro el enrutamiento para que intercepte la URL pactada y devuelva el JSON simulado con un estado 201 Created.
+
+3. Automatización en Paralelo
+Escribo todo el script de automatización en mi rama de trabajo. Defino el esquema de validación estructural con AJV, programo las aserciones y estructuro el flujo lógico del test apuntando a la URL dinámica de ese mockServer. La prueba correrá y pasará en verde localmente, validando que el framework está listo.
