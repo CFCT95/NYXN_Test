@@ -12,7 +12,7 @@ test('Flujo de compra de producto', async ({ page }) => {
   await page.locator('.hrefch').first().click();
 
   // 4. Agregar al carrito y manejo de alerta
-  // El alert de "Product added" ocurre tras el clic, por eso se configura antes
+  
   page.once('dialog', dialog => dialog.accept());
   const addToCartBtn = page.getByRole('link', { name: 'Add to cart' });
   await addToCartBtn.click();
